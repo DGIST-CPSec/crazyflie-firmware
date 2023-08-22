@@ -123,6 +123,14 @@ void systemInit(void)
 
   DEBUG_PRINT("----------------------------\n");
   DEBUG_PRINT("%s is up and running!\n", platformConfigGetDeviceTypeName());
+  DEBUG_PRINT("----------------------------\n");
+  DEBUG_PRINT("----------------------------\n");
+  DEBUG_PRINT("----------------------------\n");
+  DEBUG_PRINT("----------------------------\n");
+  DEBUG_PRINT("----------------------------\n");
+  eprintf(consolePutchar, "010:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
+
+
 
   if (V_PRODUCTION_RELEASE) {
     DEBUG_PRINT("Production release %s\n", V_STAG);

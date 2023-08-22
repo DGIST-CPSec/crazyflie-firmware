@@ -101,11 +101,13 @@ static EstimatorFcns estimatorFunctions[] = {
 };
 
 void stateEstimatorInit(StateEstimatorType estimator) {
+  eprintf(consolePutchar, "006:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   measurementsQueue = STATIC_MEM_QUEUE_CREATE(measurementsQueue);
   stateEstimatorSwitchTo(estimator);
 }
 
 void stateEstimatorSwitchTo(StateEstimatorType estimator) {
+  eprintf(consolePutchar, "007:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   if (estimator < 0 || estimator >= StateEstimatorType_COUNT) {
     return;
   }
@@ -170,6 +172,8 @@ const char* stateEstimatorGetName() {
 
 
 void estimatorEnqueue(const measurement_t *measurement) {
+  eprintf(consolePutchar, "008:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
+  // DEBUG_PRINT("estimatorEnqueue: enqueueing measurement\n");
   if (!measurementsQueue) {
     return;
   }
@@ -256,6 +260,7 @@ void estimatorEnqueue(const measurement_t *measurement) {
 }
 
 bool estimatorDequeue(measurement_t *measurement) {
+  // DEBUG_PRINT("estimatorDequeue: dequeueing measurement\n");
   return pdTRUE == xQueueReceive(measurementsQueue, measurement, 0);
 }
 

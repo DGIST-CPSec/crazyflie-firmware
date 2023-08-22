@@ -96,6 +96,8 @@
 #include "debug.h"
 #include "cfassert.h"
 
+#include <stdio.h>
+
 
 // #define KALMAN_USE_BARO_UPDATE
 
@@ -213,8 +215,13 @@ static void kalmanTask(void* parameters) {
   uint32_t nextPredictionMs = nowMs;
 
   rateSupervisorInit(&rateSupervisorContext, nowMs, ONE_SECOND, PREDICT_RATE - 1, PREDICT_RATE + 1, 1);
+  eprintf(consolePutchar, "000:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
+  // DEBUG_PRINT("[kalmanTask]\n");
 
   while (true) {
+    // this while loop works in 1ms ticks
+    eprintf(consolePutchar, "001:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
+    // DEBUG_PRINT("[kTtick] %u\n", (uint16_t)(xTaskGetTickCount()));
     xSemaphoreTake(runTaskSemaphore, portMAX_DELAY);
     nowMs = T2M(xTaskGetTickCount()); // would be nice if this had a precision higher than 1ms...
 
@@ -278,6 +285,7 @@ static void kalmanTask(void* parameters) {
 void estimatorKalman(state_t *state, const stabilizerStep_t stabilizerStep) {
   // This function is called from the stabilizer loop. It is important that this call returns
   // as quickly as possible. The dataMutex must only be locked short periods by the task.
+  eprintf(consolePutchar, "002:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   xSemaphoreTake(dataMutex, portMAX_DELAY);
 
   // Copy the latest state, calculated by the task
@@ -288,6 +296,8 @@ void estimatorKalman(state_t *state, const stabilizerStep_t stabilizerStep) {
 }
 
 static void updateQueuedMeasurements(const uint32_t nowMs, const bool quadIsFlying) {
+  eprintf(consolePutchar, "003:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
+
   /**
    * Sensor measurements can come in sporadically and faster than the stabilizer loop frequency,
    * we therefore consume all measurements since the last loop, rather than accumulating
@@ -296,6 +306,7 @@ static void updateQueuedMeasurements(const uint32_t nowMs, const bool quadIsFlyi
   // Pull the latest sensors values of interest; discard the rest
   measurement_t m;
   while (estimatorDequeue(&m)) {
+    // DEBUG_PRINT("[[Kalman Estimator While Loop]]\n");
     switch (m.type) {
       case MeasurementTypeTDOA:
         if(robustTdoa){
@@ -358,6 +369,7 @@ static void updateQueuedMeasurements(const uint32_t nowMs, const bool quadIsFlyi
 // Called when this estimator is activated
 void estimatorKalmanInit(void)
 {
+  eprintf(consolePutchar, "004:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   axis3fSubSamplerInit(&accSubSampler, GRAVITY_MAGNITUDE);
   axis3fSubSamplerInit(&gyroSubSampler, DEG_TO_RAD);
 
