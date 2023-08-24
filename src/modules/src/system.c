@@ -128,7 +128,8 @@ void systemInit(void)
   DEBUG_PRINT("----------------------------\n");
   DEBUG_PRINT("----------------------------\n");
   DEBUG_PRINT("----------------------------\n");
-  eprintf(consolePutchar, "010:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
+  // eprintf(consolePutchar, "010:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
+  eprintf(consolePutchar, "010:\n");
 
 
 
