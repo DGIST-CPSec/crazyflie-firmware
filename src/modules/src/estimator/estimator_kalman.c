@@ -100,11 +100,11 @@
 
 
 /* AREA: Call Counter Variables */
-uint16_t kalmanTask_main_count = 0;
-uint16_t kalmanTask_loop_count = 0;
-uint16_t estimatorKalman_count = 0;
-uint16_t updateQueuedMeasurements_count = 0;
-uint16_t estimatorKalmanInit_count = 0;
+uint32_t kalmanTask_main_count = 0;
+uint32_t kalmanTask_loop_count = 0;
+uint32_t estimatorKalman_count = 0;
+uint32_t updateQueuedMeasurements_count = 0;
+uint32_t estimatorKalmanInit_count = 0;
 
 // #define KALMAN_USE_BARO_UPDATE
 
@@ -223,14 +223,14 @@ static void kalmanTask(void* parameters) {
 
   rateSupervisorInit(&rateSupervisorContext, nowMs, ONE_SECOND, PREDICT_RATE - 1, PREDICT_RATE + 1, 1);
   // eprintf(consolePutchar, "000:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
-  eprintf(consolePutchar, "000:\n");
+  // eprintf(consolePutchar, "000:\n");
   kalmanTask_main_count++;
   // DEBUG_PRINT("[kalmanTask]\n");
 
   while (true) {
     // this while loop works in 1ms ticks
     // eprintf(consolePutchar, "001:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
-    eprintf(consolePutchar, "001:\n");
+    // eprintf(consolePutchar, "001:\n");
     kalmanTask_loop_count++;
     // DEBUG_PRINT("[kTtick] %u\n", (uint16_t)(xTaskGetTickCount()));
     xSemaphoreTake(runTaskSemaphore, portMAX_DELAY);
@@ -297,7 +297,7 @@ void estimatorKalman(state_t *state, const stabilizerStep_t stabilizerStep) {
   // This function is called from the stabilizer loop. It is important that this call returns
   // as quickly as possible. The dataMutex must only be locked short periods by the task.
   // eprintf(consolePutchar, "002:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
-  eprintf(consolePutchar, "002:\n");
+  // eprintf(consolePutchar, "002:\n");
   estimatorKalman_count++;
   xSemaphoreTake(dataMutex, portMAX_DELAY);
 
@@ -310,7 +310,7 @@ void estimatorKalman(state_t *state, const stabilizerStep_t stabilizerStep) {
 
 static void updateQueuedMeasurements(const uint32_t nowMs, const bool quadIsFlying) {
   // eprintf(consolePutchar, "003:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
-  eprintf(consolePutchar, "003:\n");
+  // eprintf(consolePutchar, "003:\n");
   updateQueuedMeasurements_count++;
 
   /**

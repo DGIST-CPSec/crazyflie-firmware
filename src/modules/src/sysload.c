@@ -114,15 +114,15 @@ static void timerHandler(xTimerHandle timer) {
     - stateEstimatorSwitchTo_count @ estimator.c
     - estimatorEnqueue_count @ estimator.c
      */
-    DEBUG_PRINT("systemInit_count: %u\n", systemInit_count);
-    DEBUG_PRINT("kalmanTask_main_count: %u\n", kalmanTask_main_count);
-    DEBUG_PRINT("kalmanTask_loop_count: %u\n", kalmanTask_loop_count);
-    DEBUG_PRINT("estimatorKalman_count: %u\n", estimatorKalman_count);
-    DEBUG_PRINT("updateQueuedMeasurements_count: %u\n", updateQueuedMeasurements_count);
-    DEBUG_PRINT("estimatorKalmanInit_count: %u\n", estimatorKalmanInit_count);
-    DEBUG_PRINT("stateEstimatorInit_count: %u\n", stateEstimatorInit_count);
-    DEBUG_PRINT("stateEstimatorSwitchTo_count: %u\n", stateEstimatorSwitchTo_count);
-    DEBUG_PRINT("estimatorEnqueue_count: %u\n", estimatorEnqueue_count);
+    DEBUG_PRINT("systemInit_count: %lu\n", systemInit_count);
+    DEBUG_PRINT("kalmanTask_main_count: %lu\n", kalmanTask_main_count);
+    DEBUG_PRINT("kalmanTask_loop_count: %lu\n", kalmanTask_loop_count);
+    DEBUG_PRINT("estimatorKalman_count: %lu\n", estimatorKalman_count);
+    DEBUG_PRINT("updateQueuedMeasurements_count: %lu\n", updateQueuedMeasurements_count);
+    DEBUG_PRINT("estimatorKalmanInit_count: %lu\n", estimatorKalmanInit_count);
+    DEBUG_PRINT("stateEstimatorInit_count: %lu\n", stateEstimatorInit_count);
+    DEBUG_PRINT("stateEstimatorSwitchTo_count: %lu\n", stateEstimatorSwitchTo_count);
+    DEBUG_PRINT("estimatorEnqueue_count: %lu\n", estimatorEnqueue_count);
 
 
     DEBUG_PRINT("Task dump\n");

@@ -23,7 +23,7 @@
  *
  * system.h - Top level module header file
  */
-extern uint16_t systemInit_count;
+extern uint32_t systemInit_count;
 
 #ifndef __SYSTEM_H__
 #define __SYSTEM_H__

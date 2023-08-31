@@ -70,8 +70,8 @@ void estimatorKalmanGetEstimatedPos(point_t* pos);
  */
 void estimatorKalmanGetEstimatedRot(float * rotationMatrix);
 
-extern uint16_t kalmanTask_main_count;
-extern uint16_t kalmanTask_loop_count;
-extern uint16_t estimatorKalman_count;
-extern uint16_t updateQueuedMeasurements_count;
-extern uint16_t estimatorKalmanInit_count;
+extern uint32_t kalmanTask_main_count;
+extern uint32_t kalmanTask_loop_count;
+extern uint32_t estimatorKalman_count;
+extern uint32_t updateQueuedMeasurements_count;
+extern uint32_t estimatorKalmanInit_count;

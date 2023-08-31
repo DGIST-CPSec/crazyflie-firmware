@@ -78,7 +78,7 @@
 #endif
 
 /* Call Counter Variables */
-uint16_t systemInit_count = 0;
+uint32_t systemInit_count = 0;
 
 /* Private variable */
 static bool selftestPassed;
@@ -132,7 +132,7 @@ void systemInit(void)
   DEBUG_PRINT("----------------------------\n");
   DEBUG_PRINT("----------------------------\n");
   // eprintf(consolePutchar, "010:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
-  eprintf(consolePutchar, "010:\n");
+  // eprintf(consolePutchar, "010:\n");
   systemInit_count++;
 
   if (V_PRODUCTION_RELEASE) {
