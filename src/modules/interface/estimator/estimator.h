@@ -85,6 +85,10 @@ void stateEstimator(state_t *state, const stabilizerStep_t stabilizerStep);
 StateEstimatorType stateEstimatorGetType(void);
 const char* stateEstimatorGetName();
 
+extern uint32_t stateEstimatorInit_count;
+extern uint32_t stateEstimatorSwitchTo_count;
+extern uint32_t estimatorEnqueue_count;
+
 // Support to incorporate additional sensors into the state estimate via the following functions
 void estimatorEnqueue(const measurement_t *measurement);
 

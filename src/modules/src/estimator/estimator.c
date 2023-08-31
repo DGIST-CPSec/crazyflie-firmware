@@ -19,6 +19,10 @@
 #define DEFAULT_ESTIMATOR StateEstimatorTypeComplementary
 static StateEstimatorType currentEstimator = StateEstimatorTypeAutoSelect;
 
+/* AREA: Call Counter Variables */
+uint32_t stateEstimatorInit_count = 0;
+uint32_t stateEstimatorSwitchTo_count = 0;
+uint32_t estimatorEnqueue_count = 0;
 
 #define MEASUREMENTS_QUEUE_SIZE (20)
 static xQueueHandle measurementsQueue;
@@ -103,6 +107,8 @@ static EstimatorFcns estimatorFunctions[] = {
 void stateEstimatorInit(StateEstimatorType estimator) {
   // eprintf(consolePutchar, "006:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   eprintf(consolePutchar, "006:\n");
+  stateEstimatorInit_count++;
+  
   measurementsQueue = STATIC_MEM_QUEUE_CREATE(measurementsQueue);
   stateEstimatorSwitchTo(estimator);
 }
@@ -110,6 +116,7 @@ void stateEstimatorInit(StateEstimatorType estimator) {
 void stateEstimatorSwitchTo(StateEstimatorType estimator) {
   // eprintf(consolePutchar, "007:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   eprintf(consolePutchar, "007:\n");
+  stateEstimatorSwitchTo_count++;
   if (estimator < 0 || estimator >= StateEstimatorType_COUNT) {
     return;
   }
@@ -176,6 +183,7 @@ const char* stateEstimatorGetName() {
 void estimatorEnqueue(const measurement_t *measurement) {
   // eprintf(consolePutchar, "008:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   eprintf(consolePutchar, "008:\n");
+  estimatorEnqueue_count++;
   // DEBUG_PRINT("estimatorEnqueue: enqueueing measurement\n");
   if (!measurementsQueue) {
     return;

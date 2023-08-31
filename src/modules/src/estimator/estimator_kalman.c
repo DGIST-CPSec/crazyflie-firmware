@@ -99,6 +99,13 @@
 #include <stdio.h>
 
 
+/* AREA: Call Counter Variables */
+uint16_t kalmanTask_main_count = 0;
+uint16_t kalmanTask_loop_count = 0;
+uint16_t estimatorKalman_count = 0;
+uint16_t updateQueuedMeasurements_count = 0;
+uint16_t estimatorKalmanInit_count = 0;
+
 // #define KALMAN_USE_BARO_UPDATE
 
 
@@ -217,12 +224,14 @@ static void kalmanTask(void* parameters) {
   rateSupervisorInit(&rateSupervisorContext, nowMs, ONE_SECOND, PREDICT_RATE - 1, PREDICT_RATE + 1, 1);
   // eprintf(consolePutchar, "000:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   eprintf(consolePutchar, "000:\n");
+  kalmanTask_main_count++;
   // DEBUG_PRINT("[kalmanTask]\n");
 
   while (true) {
     // this while loop works in 1ms ticks
     // eprintf(consolePutchar, "001:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
     eprintf(consolePutchar, "001:\n");
+    kalmanTask_loop_count++;
     // DEBUG_PRINT("[kTtick] %u\n", (uint16_t)(xTaskGetTickCount()));
     xSemaphoreTake(runTaskSemaphore, portMAX_DELAY);
     nowMs = T2M(xTaskGetTickCount()); // would be nice if this had a precision higher than 1ms...
@@ -289,6 +298,7 @@ void estimatorKalman(state_t *state, const stabilizerStep_t stabilizerStep) {
   // as quickly as possible. The dataMutex must only be locked short periods by the task.
   // eprintf(consolePutchar, "002:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   eprintf(consolePutchar, "002:\n");
+  estimatorKalman_count++;
   xSemaphoreTake(dataMutex, portMAX_DELAY);
 
   // Copy the latest state, calculated by the task
@@ -301,6 +311,7 @@ void estimatorKalman(state_t *state, const stabilizerStep_t stabilizerStep) {
 static void updateQueuedMeasurements(const uint32_t nowMs, const bool quadIsFlying) {
   // eprintf(consolePutchar, "003:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   eprintf(consolePutchar, "003:\n");
+  updateQueuedMeasurements_count++;
 
   /**
    * Sensor measurements can come in sporadically and faster than the stabilizer loop frequency,
@@ -375,6 +386,7 @@ void estimatorKalmanInit(void)
 {
   // eprintf(consolePutchar, "004:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   eprintf(consolePutchar, "004:\n");
+  estimatorKalmanInit_count++;
   axis3fSubSamplerInit(&accSubSampler, GRAVITY_MAGNITUDE);
   axis3fSubSamplerInit(&gyroSubSampler, DEG_TO_RAD);
 

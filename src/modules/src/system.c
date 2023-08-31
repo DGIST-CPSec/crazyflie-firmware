@@ -77,6 +77,9 @@
   #include "cpxlink.h"
 #endif
 
+/* Call Counter Variables */
+uint16_t systemInit_count = 0;
+
 /* Private variable */
 static bool selftestPassed;
 static uint8_t dumpAssertInfo = 0;
@@ -130,8 +133,7 @@ void systemInit(void)
   DEBUG_PRINT("----------------------------\n");
   // eprintf(consolePutchar, "010:%u\n", (uint16_t)(xTaskGetTickCount())%1000);
   eprintf(consolePutchar, "010:\n");
-
-
+  systemInit_count++;
 
   if (V_PRODUCTION_RELEASE) {
     DEBUG_PRINT("Production release %s\n", V_STAG);

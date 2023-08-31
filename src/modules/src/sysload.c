@@ -35,6 +35,9 @@
 #include "static_mem.h"
 
 #include "sysload.h"
+#include "estimator_kalman.h"
+#include "estimator.h"
+#include "system.h"
 
 #define TIMER_PERIOD M2T(1000)
 
@@ -97,6 +100,30 @@ static void timerHandler(xTimerHandle timer) {
     // Dumps the the CPU load and stack usage for all tasks
     // CPU usage is since last dump in % compared to total time spent in tasks. Note that time spent in interrupts will be included in measured time.
     // Stack usage is displayed as nr of unused bytes at peak stack usage.
+    DEBUG_PRINT("Caller Counts\n");
+    /* Caller Counts
+    - systemInit_count @ system.h
+
+    - kalmanTask_main_count @ estimator_kalman.c
+    - kalmanTask_loop_count @ estimator_kalman.c
+    - estimatorKalman_count @ estimator_kalman.c
+    - updateQueuedMeasurements_count @ estimator_kalman.c
+    - estimatorKalmanInit_count @ estimator_kalman.c
+
+    - stateEstimatorInit_count @ estimator.c
+    - stateEstimatorSwitchTo_count @ estimator.c
+    - estimatorEnqueue_count @ estimator.c
+     */
+    DEBUG_PRINT("systemInit_count: %u\n", systemInit_count);
+    DEBUG_PRINT("kalmanTask_main_count: %u\n", kalmanTask_main_count);
+    DEBUG_PRINT("kalmanTask_loop_count: %u\n", kalmanTask_loop_count);
+    DEBUG_PRINT("estimatorKalman_count: %u\n", estimatorKalman_count);
+    DEBUG_PRINT("updateQueuedMeasurements_count: %u\n", updateQueuedMeasurements_count);
+    DEBUG_PRINT("estimatorKalmanInit_count: %u\n", estimatorKalmanInit_count);
+    DEBUG_PRINT("stateEstimatorInit_count: %u\n", stateEstimatorInit_count);
+    DEBUG_PRINT("stateEstimatorSwitchTo_count: %u\n", stateEstimatorSwitchTo_count);
+    DEBUG_PRINT("estimatorEnqueue_count: %u\n", estimatorEnqueue_count);
+
 
     DEBUG_PRINT("Task dump\n");
     DEBUG_PRINT("Load\tStack left\tName\n");

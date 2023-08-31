@@ -69,3 +69,9 @@ void estimatorKalmanGetEstimatedPos(point_t* pos);
  * Copies 9 floats representing the current state rotation matrix
  */
 void estimatorKalmanGetEstimatedRot(float * rotationMatrix);
+
+extern uint16_t kalmanTask_main_count;
+extern uint16_t kalmanTask_loop_count;
+extern uint16_t estimatorKalman_count;
+extern uint16_t updateQueuedMeasurements_count;
+extern uint16_t estimatorKalmanInit_count;
